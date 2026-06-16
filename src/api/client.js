@@ -116,6 +116,10 @@ class ApiClient {
     return this.request('/devices/');
   }
 
+  async createDemoDevice() {
+    return this.request('/devices/demo', { method: 'POST' });
+  }
+
   async getDeviceConfig(deviceId) {
     return this.request(`/devices/${deviceId}/config`);
   }

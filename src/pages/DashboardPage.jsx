@@ -13,10 +13,11 @@ const INTERVALS = [
 ];
 
 export default function DashboardPage() {
-  const { devices, selectedDevice, selectDevice } = useDevices();
+  const { devices, selectedDevice, selectDevice, refetchDevices } = useDevices();
   const [telemetry, setTelemetry] = useState(null);
   const [interval, setInterval] = useState('hour');
   const [loading, setLoading] = useState(false);
+  const [isPairing, setIsPairing] = useState(false);
   const [activeCycle, setActiveCycle] = useState(null);
   const [showDeviceSelect, setShowDeviceSelect] = useState(false);
 
@@ -51,6 +52,19 @@ export default function DashboardPage() {
   const humidity = latestReading ? (isRaw ? latestReading.humidity_pct : latestReading.humidity_pct_avg) : null;
   const co2 = latestReading ? (isRaw ? latestReading.co2_ppm : latestReading.co2_ppm_avg) : null;
   const ph = latestReading ? (isRaw ? latestReading.ph_level : latestReading.ph_level_avg) : null;
+
+  const handlePairDemo = async () => {
+    setIsPairing(true);
+    try {
+      await api.createDemoDevice();
+      await refetchDevices();
+    } catch (err) {
+      console.error(err);
+      alert('Failed to pair demo device');
+    } finally {
+      setIsPairing(false);
+    }
+  };
 
   return (
     <div className="dashboard-page">
@@ -98,6 +112,14 @@ export default function DashboardPage() {
           <div className="empty-state-icon"><Thermometer size={48} /></div>
           <h3>No Devices Paired</h3>
           <p>Pair your first Rawbin device using the mobile app to see data here.</p>
+          <button 
+            className="btn btn-primary" 
+            style={{ marginTop: '1.5rem' }} 
+            onClick={handlePairDemo}
+            disabled={isPairing}
+          >
+            {isPairing ? 'Pairing...' : 'Pair Demo Device'}
+          </button>
         </div>
       ) : (
         <>
