@@ -40,13 +40,22 @@ export function AuthProvider({ children }) {
     setUser(result.user);
   };
 
+  const requestOtp = async (phone) => {
+    return api.requestOtp(phone);
+  };
+
+  const verifyOtp = async (phone, code) => {
+    await api.verifyOtp(phone, code);
+    await fetchUser();
+  };
+
   const logout = async () => {
     await api.logout();
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, loading, login, register, requestOtp, verifyOtp, logout, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   );

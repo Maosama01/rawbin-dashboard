@@ -106,6 +106,22 @@ class ApiClient {
     this.clearTokens();
   }
 
+  async requestOtp(phone) {
+    return this.request('/auth/otp/request', {
+      method: 'POST',
+      body: JSON.stringify({ phone }),
+    });
+  }
+
+  async verifyOtp(phone, code) {
+    const tokens = await this.request('/auth/otp/verify', {
+      method: 'POST',
+      body: JSON.stringify({ phone, code }),
+    });
+    this.setTokens(tokens);
+    return tokens;
+  }
+
   // Users
   async getMe() {
     return this.request('/users/me');
