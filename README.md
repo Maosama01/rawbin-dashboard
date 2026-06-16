@@ -1,16 +1,42 @@
-# React + Vite
+# Rawbin Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The Rawbin Dashboard is a React + Vite frontend application designed to pair with the Rawbin IoT Composter backend. It provides an intuitive interface for users to monitor their smart bin telemetry, visualize data trends, manage pairing cycles, and authenticate securely.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Authentication:** Dual-login support (Email + Password AND Phone Number + SMS OTP).
+- **Responsive Telemetry:** Real-time visualization of your composter's health (Temperature, Humidity, CO2, pH, Fill Level) using responsive charts.
+- **Demo Mode:** An interactive empty-state experience allowing developers and testers to instantly pair a virtual "Demo Device". This automatically requests 24 hours of perfectly shaped mock telemetry data from the backend to showcase chart layouts.
+- **Glassmorphic UI:** Modern UI design prioritizing clean aesthetics, subtle blurring, and high-contrast metric cards.
 
-## React Compiler
+## Quick Start
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
+- Node.js (v18+)
+- Running instance of the `rawbin-backend` (FastAPI)
 
-## Expanding the ESLint configuration
+### Installation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+# Install dependencies
+npm install
+
+# Create environment configuration
+cp .env.example .env.local
+
+# Run the local development server
+npm run dev
+```
+
+## Important Development Notes
+
+- **OTP Authentication:** When testing the SMS-OTP login locally, you do not need a Twilio account. The backend is configured so that when `APP_ENV=development`, the correct OTP for any phone number is strictly hardcoded to `123456`.
+- **Phone Number Format:** When logging in via phone, ensure your number includes the standard `+` prefix and country code (e.g. `+918949231213`).
+
+## Tech Stack
+
+- **Framework:** React 18
+- **Build Tool:** Vite
+- **Styling:** CSS3, Glassmorphism design patterns, Lucide Icons
+- **Charting:** Recharts
+- **Deployment:** Vercel
