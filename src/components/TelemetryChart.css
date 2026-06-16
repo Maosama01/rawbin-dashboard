@@ -1,0 +1,29 @@
+.chart-container {
+  width: 100%;
+}
+
+.chart-tooltip {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  min-width: 140px;
+}
+
+.chart-tooltip-time {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-xs);
+  font-weight: 500;
+}
+
+.chart-tooltip-value {
+  line-height: 1.6;
+}
+
+.chart-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
