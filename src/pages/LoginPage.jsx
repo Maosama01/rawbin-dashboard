@@ -128,12 +128,17 @@ export default function LoginPage() {
                     type="tel"
                     className="input-field login-input"
                     placeholder="+1234567890"
+                    pattern="^\+[1-9]\d{1,14}$"
+                    title="Must include country code, e.g. +1 or +91"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     required
                     disabled={otpSent}
                   />
                 </div>
+                <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>
+                  Include country code (e.g. +91)
+                </small>
               </div>
 
               {otpSent && (
@@ -194,10 +199,15 @@ export default function LoginPage() {
                       type="tel"
                       className="input-field login-input"
                       placeholder="+1234567890"
+                      pattern="^\+[1-9]\d{1,14}$"
+                      title="Must include country code, e.g. +1 or +91"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                     />
                   </div>
+                  <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>
+                    Include country code (e.g. +91)
+                  </small>
                 </div>
               )}
 

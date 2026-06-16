@@ -45,7 +45,13 @@ class ApiClient {
         });
         if (!retryResponse.ok) {
           const err = await retryResponse.json().catch(() => ({}));
-          throw new ApiError(retryResponse.status, err.detail || 'Request failed');
+          let errMsg = 'Request failed';
+          if (Array.isArray(err.detail)) {
+            errMsg = err.detail.map(e => e.msg).join(', ');
+          } else if (err.detail) {
+            errMsg = err.detail;
+          }
+          throw new ApiError(retryResponse.status, errMsg);
         }
         return retryResponse.json();
       } else {
@@ -57,7 +63,13 @@ class ApiClient {
 
     if (!response.ok) {
       const err = await response.json().catch(() => ({}));
-      throw new ApiError(response.status, err.detail || 'Request failed');
+      let errMsg = 'Request failed';
+      if (Array.isArray(err.detail)) {
+        errMsg = err.detail.map(e => e.msg).join(', ');
+      } else if (err.detail) {
+        errMsg = err.detail;
+      }
+      throw new ApiError(response.status, errMsg);
     }
 
     if (response.status === 204) return null;
