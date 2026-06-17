@@ -1,42 +1,41 @@
-# Rawbin Dashboard
+# Rawbin Smart Composter Dashboard
 
-The Rawbin Dashboard is a React + Vite frontend application designed to pair with the Rawbin IoT Composter backend. It provides an intuitive interface for users to monitor their smart bin telemetry, visualize data trends, manage pairing cycles, and authenticate securely.
+The central dashboard for monitoring and managing the Rawbin Smart Ecosystem. This premium UI is built with a focus on "Smart Sustainability" – combining clean, organic aesthetics with real-time IoT data visualization.
+
+## Architecture
+
+- **Framework:** React + Vite
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS (v3)
+- **Design System:** Custom "Smart Sustainability" Light Theme
+- **Data Visualization:** Recharts (Area charts for TimescaleDB aggregation)
+- **Icons:** Lucide React
 
 ## Features
 
-- **Authentication:** Dual-login support (Email + Password AND Phone Number + SMS OTP).
-- **Responsive Telemetry:** Real-time visualization of your composter's health (Temperature, Humidity, CO2, pH, Fill Level) using responsive charts.
-- **Demo Mode:** An interactive empty-state experience allowing developers and testers to instantly pair a virtual "Demo Device". This automatically requests 24 hours of perfectly shaped mock telemetry data from the backend to showcase chart layouts.
-- **Glassmorphic UI:** Modern UI design prioritizing clean aesthetics, subtle blurring, and high-contrast metric cards.
+- **Global Ecosystem Overview:** High-level metrics tracking total compost weight and active critical alerts across all paired hardware.
+- **Real-Time Telemetry Grid:** 8 dedicated monitoring gauges for tracking core metrics (Temperature, Humidity, CO2, pH, Bin Fill Level, Weight, and Fan Speed).
+- **Historical Analytics:** Recharts area charts that dynamically map to TimescaleDB's raw, hourly, and daily continuous aggregates.
+- **Alert Threshold Configuration:** Form interfaces to set minimum and maximum safe operating bounds for background workers (Celery/Redis pipeline).
+- **Secure Hardware Pairing:** A 3-step simulated HMAC-SHA256 Challenge-Response workflow for pairing new Bluetooth IoT devices securely.
 
-## Quick Start
-
-### Prerequisites
-- Node.js (v18+)
-- Running instance of the `rawbin-backend` (FastAPI)
-
-### Installation
+## Local Development
 
 ```bash
 # Install dependencies
 npm install
 
-# Create environment configuration
-cp .env.example .env.local
-
-# Run the local development server
+# Start the development server
 npm run dev
+
+# Build for production
+npm run build
 ```
 
-## Important Development Notes
+## Theme Details
 
-- **OTP Authentication:** When testing the SMS-OTP login locally, you do not need a Twilio account. The backend is configured so that when `APP_ENV=development`, the correct OTP for any phone number is strictly hardcoded to `123456`.
-- **Phone Number Format:** When logging in via phone, ensure your number includes the standard `+` prefix and country code (e.g. `+918949231213`).
-
-## Tech Stack
-
-- **Framework:** React 18
-- **Build Tool:** Vite
-- **Styling:** CSS3, Glassmorphism design patterns, Lucide Icons
-- **Charting:** Recharts
-- **Deployment:** Vercel
+The application is built on a strict Light Mode organic theme:
+- **Backgrounds:** Soft off-white and pale stone.
+- **Accents:** Sage greens and leafy emeralds for healthy states.
+- **Alerts:** Warm terracotta for warnings/critical errors.
+- **Shapes:** Smooth organic curves with `rounded-2xl` and `rounded-3xl` radii, supported by diffuse low-opacity drop shadows (`shadow-organic`).

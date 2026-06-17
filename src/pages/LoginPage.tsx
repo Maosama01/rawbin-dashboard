@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Recycle, Mail, Lock, User, ArrowRight, Phone, KeyRound } from 'lucide-react';
+import { Leaf, Mail, Lock, User, ArrowRight, Phone, KeyRound } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import './LoginPage.css';
 
 export default function LoginPage() {
   const [isRegister, setIsRegister] = useState(false);
@@ -24,7 +23,7 @@ export default function LoginPage() {
   const { login, register, requestOtp, verifyOtp } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
@@ -43,17 +42,15 @@ export default function LoginPage() {
           navigate('/');
         } else {
           if (!otpSent) {
-            // Request OTP
             await requestOtp(phone);
             setOtpSent(true);
           } else {
-            // Verify OTP
             await verifyOtp(phone, otpCode);
             navigate('/');
           }
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message || 'Something went wrong');
     } finally {
       setLoading(false);
@@ -61,35 +58,34 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-bg-glow login-bg-glow-1" aria-hidden="true" />
-      <div className="login-bg-glow login-bg-glow-2" aria-hidden="true" />
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans">
+      {/* Decorative Background Elements */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-emerald/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-      <div className="login-card glass-card animate-fade-in-up" id="login-card">
-        <div className="login-header">
-          <div className="login-logo">
-            <Recycle size={28} />
+      <div className="organic-card w-full max-w-md p-10 relative z-10 animate-fade-in">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-emerald/10 text-emerald-dark mb-6">
+            <Leaf size={32} strokeWidth={2.5} />
           </div>
-          <h1 className="login-title">Rawbin</h1>
-          <p className="login-subtitle">
-            {isRegister ? 'Create your account' : 'Sign in to your dashboard'}
+          <h1 className="text-3xl font-bold text-text-primary tracking-tight mb-2">Rawbin</h1>
+          <p className="text-text-secondary font-medium">
+            {isRegister ? 'Create your smart ecosystem account' : 'Sign in to your dashboard'}
           </p>
         </div>
 
         {!isRegister && (
-          <div className="login-method-toggle" style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', padding: '4px', background: 'var(--bg-glass-heavy)', borderRadius: 'var(--radius-md)' }}>
+          <div className="flex bg-background p-1 rounded-2xl mb-8 border border-border">
             <button 
               type="button"
-              className={`btn ${loginMethod === 'email' ? 'btn-primary' : ''}`}
-              style={{ flex: 1, background: loginMethod === 'email' ? '' : 'transparent' }}
+              className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all ${loginMethod === 'email' ? 'bg-white shadow-organic-sm text-text-primary' : 'text-text-secondary hover:text-text-primary'}`}
               onClick={() => { setLoginMethod('email'); setError(''); setOtpSent(false); }}
             >
               Email
             </button>
             <button 
               type="button"
-              className={`btn ${loginMethod === 'phone' ? 'btn-primary' : ''}`}
-              style={{ flex: 1, background: loginMethod === 'phone' ? '' : 'transparent' }}
+              className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all ${loginMethod === 'phone' ? 'bg-white shadow-organic-sm text-text-primary' : 'text-text-secondary hover:text-text-primary'}`}
               onClick={() => { setLoginMethod('phone'); setError(''); }}
             >
               Phone
@@ -97,17 +93,16 @@ export default function LoginPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           {isRegister && (
-            <div className="input-group">
-              <label className="input-label" htmlFor="display-name">Full Name</label>
-              <div className="login-input-wrap">
-                <User size={16} className="login-input-icon" aria-hidden="true" />
+            <div className="flex flex-col gap-1.5">
+              <label className="text-text-secondary text-xs font-bold uppercase tracking-wider pl-1">Full Name</label>
+              <div className="relative">
+                <User size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input
-                  id="display-name"
                   type="text"
-                  className="input-field login-input"
-                  placeholder="John Doe"
+                  className="input-field pl-12 py-3.5"
+                  placeholder="Jane Doe"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
                   required
@@ -117,16 +112,14 @@ export default function LoginPage() {
           )}
 
           {(!isRegister && loginMethod === 'phone') ? (
-            // Phone Login Form
             <>
-              <div className="input-group">
-                <label className="input-label" htmlFor="phone">Phone Number</label>
-                <div className="login-input-wrap">
-                  <Phone size={16} className="login-input-icon" aria-hidden="true" />
+              <div className="flex flex-col gap-1.5">
+                <label className="text-text-secondary text-xs font-bold uppercase tracking-wider pl-1">Phone Number</label>
+                <div className="relative">
+                  <Phone size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                   <input
-                    id="phone"
                     type="tel"
-                    className="input-field login-input"
+                    className="input-field pl-12 py-3.5"
                     placeholder="+1234567890"
                     pattern="^\+[1-9]\d{1,14}$"
                     title="Must include country code, e.g. +1 or +91"
@@ -136,24 +129,20 @@ export default function LoginPage() {
                     disabled={otpSent}
                   />
                 </div>
-                <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>
-                  Include country code (e.g. +91)
-                </small>
               </div>
 
               {otpSent && (
-                <div className="input-group animate-fade-in-up">
-                  <label className="input-label" htmlFor="otp">6-Digit Code</label>
-                  <div className="login-input-wrap">
-                    <KeyRound size={16} className="login-input-icon" aria-hidden="true" />
+                <div className="flex flex-col gap-1.5 animate-fade-in-up mt-2">
+                  <label className="text-text-secondary text-xs font-bold uppercase tracking-wider pl-1">6-Digit Code</label>
+                  <div className="relative">
+                    <KeyRound size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                     <input
-                      id="otp"
                       type="text"
                       inputMode="numeric"
                       pattern="[0-9]*"
                       maxLength={6}
-                      className="input-field login-input"
-                      placeholder="123456"
+                      className="input-field pl-12 py-3.5 text-center tracking-[0.5em] font-bold text-lg"
+                      placeholder="••••••"
                       value={otpCode}
                       onChange={(e) => setOtpCode(e.target.value)}
                       required
@@ -161,8 +150,7 @@ export default function LoginPage() {
                   </div>
                   <button 
                     type="button" 
-                    className="login-toggle-btn" 
-                    style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}
+                    className="text-emerald text-sm font-medium mt-2 hover:underline self-start"
                     onClick={() => { setOtpSent(false); setOtpCode(''); setError(''); }}
                   >
                     Change phone number
@@ -171,16 +159,14 @@ export default function LoginPage() {
               )}
             </>
           ) : (
-            // Email Login / Registration Form
             <>
-              <div className="input-group">
-                <label className="input-label" htmlFor="email">Email</label>
-                <div className="login-input-wrap">
-                  <Mail size={16} className="login-input-icon" aria-hidden="true" />
+              <div className="flex flex-col gap-1.5">
+                <label className="text-text-secondary text-xs font-bold uppercase tracking-wider pl-1">Email</label>
+                <div className="relative">
+                  <Mail size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                   <input
-                    id="email"
                     type="email"
-                    className="input-field login-input"
+                    className="input-field pl-12 py-3.5"
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -190,14 +176,13 @@ export default function LoginPage() {
               </div>
 
               {isRegister && (
-                <div className="input-group">
-                  <label className="input-label" htmlFor="reg-phone">Phone Number (Optional)</label>
-                  <div className="login-input-wrap">
-                    <Phone size={16} className="login-input-icon" aria-hidden="true" />
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-text-secondary text-xs font-bold uppercase tracking-wider pl-1">Phone Number (Optional)</label>
+                  <div className="relative">
+                    <Phone size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                     <input
-                      id="reg-phone"
                       type="tel"
-                      className="input-field login-input"
+                      className="input-field pl-12 py-3.5"
                       placeholder="+1234567890"
                       pattern="^\+[1-9]\d{1,14}$"
                       title="Must include country code, e.g. +1 or +91"
@@ -205,20 +190,16 @@ export default function LoginPage() {
                       onChange={(e) => setPhone(e.target.value)}
                     />
                   </div>
-                  <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>
-                    Include country code (e.g. +91)
-                  </small>
                 </div>
               )}
 
-              <div className="input-group">
-                <label className="input-label" htmlFor="password">Password</label>
-                <div className="login-input-wrap">
-                  <Lock size={16} className="login-input-icon" aria-hidden="true" />
+              <div className="flex flex-col gap-1.5">
+                <label className="text-text-secondary text-xs font-bold uppercase tracking-wider pl-1">Password</label>
+                <div className="relative">
+                  <Lock size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                   <input
-                    id="password"
                     type="password"
-                    className="input-field login-input"
+                    className="input-field pl-12 py-3.5"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -230,32 +211,30 @@ export default function LoginPage() {
             </>
           )}
 
-          {error && <p className="login-error" role="alert">{error}</p>}
+          {error && <div className="p-4 rounded-xl bg-alert/10 text-alert-dark text-sm font-medium border border-alert/20">{error}</div>}
 
           <button
             type="submit"
-            className="btn btn-primary login-submit"
+            className="btn btn-primary w-full py-4 text-base font-bold mt-2 flex justify-center items-center gap-2 group"
             disabled={loading}
-            id="login-submit-btn"
           >
-            {loading ? 'Please wait…' : (
+            {loading ? 'Processing…' : (
               isRegister ? 'Create Account' : (
-                loginMethod === 'phone' && !otpSent ? 'Send Code' : 'Sign In'
+                loginMethod === 'phone' && !otpSent ? 'Send Login Code' : 'Sign In to Dashboard'
               )
             )}
-            {!loading && <ArrowRight size={16} />}
+            {!loading && <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />}
           </button>
         </form>
 
-        <div className="login-toggle">
-          <span className="login-toggle-text">
+        <div className="mt-8 text-center">
+          <span className="text-text-secondary font-medium">
             {isRegister ? 'Already have an account?' : "Don't have an account?"}
           </span>
           <button
             type="button"
-            className="login-toggle-btn"
+            className="ml-2 text-emerald font-bold hover:underline"
             onClick={() => { setIsRegister(!isRegister); setError(''); }}
-            id="toggle-register-btn"
           >
             {isRegister ? 'Sign In' : 'Create Account'}
           </button>

@@ -9,12 +9,14 @@ import AlertsPage from './pages/AlertsPage';
 import CompostPage from './pages/CompostPage';
 import DeviceSettingsPage from './pages/DeviceSettingsPage';
 
-function AppLayout({ children }) {
+function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="app-layout">
+    <div className="flex min-h-screen bg-background font-sans text-text-primary">
       <Sidebar />
-      <main className="main-content">
-        {children}
+      <main className="flex-1 ml-64 p-8 overflow-y-auto">
+        <div className="max-w-7xl mx-auto">
+          {children}
+        </div>
       </main>
     </div>
   );
