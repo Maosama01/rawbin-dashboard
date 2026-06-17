@@ -11,29 +11,32 @@ The central dashboard for monitoring and managing the Rawbin Smart Ecosystem. Th
 - **Data Visualization:** Recharts (Area charts for TimescaleDB aggregation)
 - **Icons:** Lucide React
 
-## Features
+## Local Setup & Execution
 
-- **Global Ecosystem Overview:** High-level metrics tracking total compost weight and active critical alerts across all paired hardware.
-- **Real-Time Telemetry Grid:** 8 dedicated monitoring gauges for tracking core metrics (Temperature, Humidity, CO2, pH, Bin Fill Level, Weight, and Fan Speed).
-- **Historical Analytics:** Recharts area charts that dynamically map to TimescaleDB's raw, hourly, and daily continuous aggregates.
-- **Alert Threshold Configuration:** Form interfaces to set minimum and maximum safe operating bounds for background workers (Celery/Redis pipeline).
-- **Secure Hardware Pairing:** A 3-step simulated HMAC-SHA256 Challenge-Response workflow for pairing new Bluetooth IoT devices securely.
+This application is designed to run entirely locally on your machine, communicating securely with the local `rawbin-backend`. No cloud servers or internet deployments are required.
 
-## Local Development
+### 1. Prerequisites
+- Node.js (v18+)
+- The `rawbin-backend` running locally via Docker Desktop.
 
+### 2. Installation
+Install the required frontend dependencies:
 ```bash
-# Install dependencies
 npm install
-
-# Start the development server
-npm run dev
-
-# Build for production
-npm run build
 ```
 
-## Theme Details
+### 3. Running the Dashboard
+Start the local development server:
+```bash
+npm run dev
+```
 
+Once running, simply open your browser and navigate to:
+**http://localhost:5173**
+
+*(Note: The application will automatically route requests to your local backend API running on `http://localhost:8000/api/v1`)*
+
+## Theme Details
 The application is built on a strict Light Mode organic theme:
 - **Backgrounds:** Soft off-white and pale stone.
 - **Accents:** Sage greens and leafy emeralds for healthy states.
